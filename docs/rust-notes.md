@@ -1,12 +1,12 @@
 # Rust Notes
 ## Table-of-Contents
-- [Basic Commands](#Basic Commands)
-    - [Creating a New Project] (#)
+- [Basic Commands](#basic-commands)
+    - [Creating a New Project](#creating-a-new-project)
 
-<a name="rust-notes-basic-commands"></a>
+<a name="basic-commands"></a>
 ## Basic Commands
 
-<a name="rust-notes-basic-commands-creating-a-new-project"></a>
+<a name="creating-a-new-project"></a>
 ### Creating a New Project
 ```
 $ cargo new new-project
