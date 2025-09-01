@@ -11,3 +11,9 @@
 ```
 $ cargo new new-project
 ```
+
+<a name="running-a-project"></a>
+### Running a Project
+```
+$ cargo run
+```
