@@ -1,2 +1,6 @@
 # Rust
 A repository for Rust Projects
+
+## Table-of-Contents
+- [Basic Commands](docs/rust-notes.md/#basic-commands)
+    - [Creating a New Project](docs/rust-notes/#creating-a-new-project)
