@@ -9,7 +9,7 @@
 <a name="creating-a-new-project"></a>
 ### Creating a New Project
 ```
-$ cargo new new-project
+$ cargo new <new-project>
 ```
 
 <a name="running-a-project"></a>
