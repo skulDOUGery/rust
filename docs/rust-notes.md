@@ -2,6 +2,7 @@
 ## Table-of-Contents
 - [Basic Commands](#basic-commands)
     - [Creating a New Project](#creating-a-new-project)
+- [Datatypes](#datatypes)
 - [Control Flow](#control-flow)
     - [Conditionals](#conditionals)
     - [Looping](#looping)
