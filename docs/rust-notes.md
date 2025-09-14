@@ -47,6 +47,22 @@ $ cargo run
 - Compound
     - Tuple
     - Arrays
+ 
+<a name="casting"></a>
+## Casting
+```rust
+fn main() {
+    let pi:f32 = 3.14;
+    let foo:i32 = pi as i32;
+    
+    let num:i32 = 5;
+    let bar:f32 = num as f32;
+    
+    println!("{}", foo);
+    println!("{}", bar);
+}
+```
+
 
 <a name="control-flow"></a>
 ## Control Flow
