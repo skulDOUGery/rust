@@ -9,6 +9,7 @@
         - [For Loop](#for-loop)
         - [While Loop](#while-loop)
         - [Loop](#loop)
+- [Functions](#functions)
 
 <a name="basic-commands"></a>
 ## Basic Commands
@@ -136,4 +137,35 @@ fn main() {
       }
   }
   ```
+  
+<a name="functions"></a>
+## Functions
+- Functions start with the 'fn' keyword. 
+- Rust naming conventions are that words that make up the function are lower-case and use snake-case formatting.
+- Rust functions must always include data type for parameters.
+  ```rust
+  fn main() {
+      let name = String::from("Alice");
+      greet_user(name)
+  }
+  
+  fn greet_user(name:String){
+      println!("Hello {}, welcome to Rust Programming", name);
+  }
+  ```
+  
+- In Rust, lines that end with a semi-colon are called statements.
+- Lines that do not end with a semi-colon are called expressions.
+- We use expressions to return values from functions.
+- Function headers specify that we want to return something and the return type using an '->' arrow and the return type.
+  ```rust
+  fn main() {
+      let sum = calculate_sum(5, 10);
+  println!("The sum is {}", sum);
+  }
 
+  fn calculate_sum(a:i32, b:i32) -> i32{
+      let sum = a + b;
+      sum
+  }
+  ```
