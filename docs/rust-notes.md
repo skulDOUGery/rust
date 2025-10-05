@@ -99,7 +99,10 @@ fn main() {
 - Used to iterate over a collection such as an array.
     ````rust
     fn main() {
-    
+        let arr = [10, 20, 30, 40, 50];
+        for elem in arr {
+            println!("{}", elem);
+        }
     }
     ````
 
