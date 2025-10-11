@@ -10,6 +10,9 @@
         - [While Loop](#while-loop)
         - [Loop](#loop)
 - [Functions](#functions)
+- [Ownership](#ownership)
+    - [Ownership Rules](#ownership-rules)
+    - [Ownership Violation Fixes](#ownership-fixes)
 
 <a name="basic-commands"></a>
 ## Basic Commands
@@ -296,3 +299,82 @@ fn main() {
       sum
   }
   ```
+
+<a name="ownership"></a>
+## Ownership
+- Set of rules for ***memory management***
+- No garbage collection
+- Memory is managed through a system of *ownership*
+    - Set of rules that the compiler checks
+    - If violated, the program won't compile
+    - Ownership rules checked during compile time, ***Not Runtime***
+
+<a name="ownership-rules"></a>
+### Ownership Rules
+- Each value in Rush has an exactly one owner
+- There can be only one owner at a time
+- When the owner goes out of scope, the value will be dropped
+- Examples:
+```rust
+let s1 = String::from("hello");
+let s2 = s1; // Ownership is transferred to s2 thus, s1 is no longer valid.
+```
+
+```rust
+fn main() {
+    let name = String::from("Rob");
+    print_greeting(name); // Ownership of name is transferred to print_greeting() thus, name is no longer valid.
+}
+
+fn print_greeting(name: String) {
+    println!("Welcome {name}");
+}
+```
+
+<a name="ownership-fixes"></a>
+### Ownership Violation Fixes
+- **NOTE**: Transfer of ownership only occurs for complex types.
+```rust
+let i = 9;
+let j = i; // No transfer of ownership takes place here!
+println!("{}{}", i, j);
+```
+
+- Create a copy
+```rust
+let s1 = String::from("hello");
+let s2 = s1.clone();
+println!("{s1}, world!");
+println!("{s2}, world!");
+```
+
+- Return ownership back to calling function
+```rust
+fn main() {
+    let name = String::from("Rob");
+
+    // Receive ownership back.
+    let name = print_greeting(name);
+    println!("{name}");
+}
+
+fn print_greeting(name: String) -> String {
+    println!("Welcome {name}");
+    name
+}
+```
+
+- Use References
+```rust
+fn main() {
+    let name = String::from("Rob");
+
+    // Pass name by reference
+    print_greeting(&name);
+    println!("{name}");
+}
+
+fn print_greeting(name: &String){
+    println!("Welcome {name}");
+}
+```
