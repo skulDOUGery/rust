@@ -31,24 +31,151 @@ $ cargo run
 - Statically Typed Language
 - Scalar
     - Integer
-| Length | Signed | Unsigned | Range |
-|------|------|--------|-----|
-| 8-bit | i8 | u8 | -128 to 127 or 0 to 255 |
-| 16-bit | i16 | u16 | -32,768 to 32,767 or 0 to 65,535 |
-| 32-bit | i32 | u32 | -2,147,483,648 to 2,147,483,647 or 0 to 4,294,967,295 |
-| 64-bit | i64 | u64 | -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 or 0 to 18,446,744,073,709,551,615 |
+
+    | Length | Signed | Unsigned | Range |
+    |------|------|--------|-----|
+    | 8-bit | i8 | u8 | -128 to 127 or 0 to 255 |
+    | 16-bit | i16 | u16 | -32,768 to 32,767 or 0 to 65,535 |
+    | 32-bit | i32 | u32 | -2,147,483,648 to 2,147,483,647 or 0 to 4,294,967,295 |
+    | 64-bit | i64 | u64 | -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 or 0 to 18,446,744,073,709,551,615 |
+
+    ```rust
+    // Integer with explicit type annotation
+    let x: u32 = 42;
+
+    // Integer with type inference
+    let x = 42;    
+    ```
 
     - Float
+
     | Length | Signed | Unsigned |
     | ------ | ------ | -------- |
     | 32-bit | f32 | f64 |
     | 64-bit | f32 | f64 |
+
+    ```rust
+    // Float with explicit type annotation
+    let x: f32 = 42.314;
+
+    // Float with type inference
+    let x = 42.314;    
+    ```
     
     - Boolean
+    ```rust
+    // Boolean with explicit type annotation
+    let is_active: bool = true;
+
+    // Boolean with type inference
+    let has_permission = false;    
+    ```
+ 
     - Character
+     ```rust
+    // Character with explicit type annotation
+    let x: char = 'R';
+
+    // Character with type inference
+    let emoji = '🚀';    
+    ```
+
 - Compound
     - Tuple
+    ```rust
+    // Tuple with explicit type annotation
+    let person_with_type: (&str, i32, bool) = ("Alice", 30, true);
+
+    // Tuple with type inference
+    let product_info = ("Laptop", 1200.0, 5); 
+
+    // Printing all elements of a tuple
+    println!("Person: {:?}", person_with_type);
+    println!("Product Info: {:?}", product_info);
+
+    // Accessing tuple elements
+    let coordinates = (10, 25);
+
+    // Access the first element
+    let x = coordinates.0;
+
+    // Access the second element
+    let y = coordinates.1;
+
+    // Print the coordinates
+    println!("X-coordinate: {}", x);
+    println!("Y-coordinate: {}", y);
+
+    // Destructuring a Tuple
+    let user_data = ("Bob", "bob@example.com", 42);
+
+    // Destructuring the tuple into named variables
+    let (name, email, age) = user_data;
+
+    println!("Name: {}", name);
+    println!("Email: {}", email);
+    println!("Age: {}", age);
+
+    // Returning a Tuple from a Function
+    fn get_dimensions() -> (f64, f64) {
+        (10.5, 20.0) // Returns a tuple of two f64 values
+    }
+    
+    fn main() {
+        let (width, height) = get_dimensions();
+        println!("Width: {}, Height: {}", width, height);
+    }
+    
+    ```
+    
     - Arrays
+        - **Fixed Size**: Once declared, the size of an array cannot be changed.
+        - **Homogeneous Type**: All elements in an array must be of the same data type.
+        - **Stack Allocation**: Arrays are typically allocated on the stack, which can offer performance benefits.
+        - **Compile-time Bounds Checking**: Rust performs bounds checking at compile time for array access, preventing out-of-bounds errors.
+    ```rust
+    // Array with explicit type and size
+    let numbers: [i32; 5] = [1, 2, 3, 4, 5];
+
+    // Array with type and size inferred by Rust
+    let colors = ["red", "green", "blue"];
+
+    // Array initialized with a default value for all elements
+    let zeros: [u8; 10] = [0; 10]; 
+
+    println!("Numbers: {:?}", numbers);
+    println!("Colors: {:?}", colors);
+    println!("Zeros: {:?}", zeros);
+
+    // Accessing Array Elements
+    let fruits = ["apple", "banana", "cherry"];
+
+    // Accessing elements by index (0-based)
+    println!("First fruit: {}", fruits[0]);
+    println!("Second fruit: {}", fruits[1]);
+
+    // Iterating through an Array
+    let scores = [85, 92, 78, 95];
+
+    // Using a for loop to iterate over elements
+    for score in scores {
+        println!("Score: {}", score);
+    }
+
+    // Iterating with index and value
+    for (index, score) in scores.iter().enumerate() {
+        println!("Index: {}, Value: {}", index, score);
+    }
+
+    // Mutable Arrays
+    let mut data = [10, 20, 30];
+
+    // Modifying elements in a mutable array
+    data[0] = 15;
+    data[2] = 35;
+
+    println!("Modified data: {:?}", data);
+    ```
  
 <a name="casting"></a>
 ## Casting
