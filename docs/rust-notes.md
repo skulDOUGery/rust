@@ -32,8 +32,10 @@ $ cargo run
 <a name="datatypes"></a>
 ## Datatypes
 - Statically Typed Language
-- Scalar
-    - Integer
+
+  ### Scalar Types
+
+    #### Integer
 
     | Length | Signed | Unsigned | Range |
     |------|------|--------|-----|
@@ -50,7 +52,7 @@ $ cargo run
     let x = 42;    
     ```
 
-    - Float
+    #### Float
 
     | Length | Signed | Unsigned |
     | ------ | ------ | -------- |
@@ -65,7 +67,7 @@ $ cargo run
     let x = 42.314;    
     ```
     
-    - Boolean
+    #### Boolean
     ```rust
     // Boolean with explicit type annotation
     let is_active: bool = true;
@@ -74,7 +76,7 @@ $ cargo run
     let has_permission = false;    
     ```
  
-    - Character
+    #### Character
      ```rust
     // Character with explicit type annotation
     let x: char = 'R';
@@ -83,8 +85,9 @@ $ cargo run
     let emoji = '🚀';    
     ```
 
-- Compound
-    - Tuple
+  ### Compound Types
+    
+    #### Tuple
     ```rust
     // Tuple with explicit type annotation
     let person_with_type: (&str, i32, bool) = ("Alice", 30, true);
@@ -131,7 +134,7 @@ $ cargo run
     
     ```
     
-    - Arrays
+    #### Arrays
         - **Fixed Size**: Once declared, the size of an array cannot be changed.
         - **Homogeneous Type**: All elements in an array must be of the same data type.
         - **Stack Allocation**: Arrays are typically allocated on the stack, which can offer performance benefits.
@@ -179,6 +182,22 @@ $ cargo run
 
     println!("Modified data: {:?}", data);
     ```
+
+    #### Slice Type
+    - A special kind of reference that lets you access a contiguous sequence of elements in a collection.
+        - For example, it can help in accessing a part of a string or part of a collection like tuples or arrays.
+      ````rust
+      let message = String::from("hello world");
+      let hello = &message[0..5];
+      println!("{}", hello);
+
+      let array = [1, 2, 3, 4, 5];
+      let slice = &array[1..4];
+      for num in slice {
+          println!("{)", num);
+      }
+      
+      ````
  
 <a name="casting"></a>
 ## Casting
@@ -279,7 +298,7 @@ fn main() {
       greet_user(name)
   }
   
-  fn greet_user(name:String){
+  fn greet_user(name: String){
       println!("Hello {}, welcome to Rust Programming", name);
   }
   ```
@@ -291,7 +310,7 @@ fn main() {
   ```rust
   fn main() {
       let sum = calculate_sum(5, 10);
-  println!("The sum is {}", sum);
+      println!("The sum is {}", sum);
   }
 
   fn calculate_sum(a:i32, b:i32) -> i32{
@@ -311,7 +330,7 @@ fn main() {
 
 <a name="ownership-rules"></a>
 ### Ownership Rules
-- Each value in Rush has an exactly one owner
+- Each value in Rust has an exactly one owner
 - There can be only one owner at a time
 - When the owner goes out of scope, the value will be dropped
 - Examples:
