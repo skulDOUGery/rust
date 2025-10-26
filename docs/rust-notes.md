@@ -13,6 +13,9 @@
 - [Ownership](#ownership)
     - [Ownership Rules](#ownership-rules)
     - [Ownership Violation Fixes](#ownership-fixes)
+- [Structs](#structs)
+    - [Tuple Structs](#tuple_structs)
+    - - [Methods](#methods)
 
 <a name="basic-commands"></a>
 ## Basic Commands
@@ -395,5 +398,92 @@ fn main() {
 
 fn print_greeting(name: &String){
     println!("Welcome {name}");
+}
+```
+
+<a name="structs"></a>
+## Structs
+- Custom Data Type
+- Package together multiple realted values in a meaningful group
+- Structs are complex data types
+    - Typically allocated from the heap
+    - Subject to ownership rules
+```rust
+struct User {
+    name: String,
+    email: String,
+    active: bool,
+    sign_in_count: u64,
+    date_of_birth: String,
+}
+
+fn print_user_message(user: &User){
+    println!("Hello {}, you have signed in {} times.", user.name, user.sign_in_count);
+}
+
+fn main() {
+    let user1 = User{
+        name: String::from("Alice"),
+        email: String::from("alice@example.com"),
+        active: true,
+        sign_in_count: 5,
+        date_of_birth: String::from("1950-05-05"),
+    };
+    print_user_message(&user1);
+}
+```
+
+
+<a name="tuple_structs"></a>
+### Tuple Structs
+- Structures in which you do not need to name each field.
+```rust
+// RGB Values
+Struct Color (i32, i32, i32);
+
+// x, y, z co-ordinates
+Struct Point(f64, f64, f64);
+
+fn main() {
+    let red = Color(255, 0, 0);
+    let p1 = Point(100.0, 25.5, 30.1);
+}
+```
+
+<a name="methods"></a>
+### Methods
+- Functions associated with a struct
+- Actions or operations used to perform an operation on a struct or using a struct
+- For Example:
+  - User
+      - login, logout, print_user_info
+  - Rectangle
+      - calc_area, print_dimension,
+  - Car
+      - drive, refuel, service_vehicle
+```rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self)->u32 {
+        self.width * self.height
+    }
+    
+    fn print_dimensions(&self) {
+        println!("Height {}, Width {}", self.height, self.width);
+    }
+}
+
+fn main() {
+    let rec1 = Rectangle{
+        width: 25,
+        height: 20,
+    };
+    
+    let rec1_area = rec1.area();
+    println!("Rectangle 1 Area: {}", rec1_area);
 }
 ```
