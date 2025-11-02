@@ -16,6 +16,8 @@
 - [Structs](#structs)
     - [Tuple Structs](#tuple_structs)
     - - [Methods](#methods)
+- [Format Macro](#format-macro)
+    - [Returning Strings from Functions](#format-macro-returning-strings)
 
 <a name="basic-commands"></a>
 ## Basic Commands
@@ -485,5 +487,37 @@ fn main() {
     
     let rec1_area = rec1.area();
     println!("Rectangle 1 Area: {}", rec1_area);
+}
+```
+
+<a name="format-macro"></a>
+## Format Macro
+- A powerful tool for constructing strings.
+- Particularly useful when you want to create a fromatted string for display or to return from a function.
+- Similar to the println!() macro but returns the formatted string instead of printing it out.
+- Advantages:
+    - It allows for the creation of dynamic, formatted text without needing to concatenate strings manually.
+    - It provides a clear and concise way to include variables in string output.
+    - It returns a String, making it easy to store or return from functions.
+- example:
+```rust
+fn main() {
+    let name =  "Jane";
+    let age = 30;
+    let introduction = format!("Hi, my name is {} and I am {} years old.", name, age);
+    println!("{}", introduction);
+}
+```
+<a name="format-macro-returning-strings"></a>
+### Returning Strings from Functions
+- The format!() macro is sepecially useful when you need to build and return dynamic strings from functions.
+```rust
+fn create_greeting(name: &str, age: u8) -> String {
+    format!("My name is {} and I am {} years old.", name, age)
+}
+
+fn main() {
+    let introduction = create_greeting("Bob", 25);
+    println!("{}", introduction);
 }
 ```
