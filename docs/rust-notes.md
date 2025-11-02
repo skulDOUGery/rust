@@ -10,6 +10,14 @@
         - [While Loop](#while-loop)
         - [Loop](#loop)
 - [Functions](#functions)
+- [Ownership](#ownership)
+    - [Ownership Rules](#ownership-rules)
+    - [Ownership Violation Fixes](#ownership-fixes)
+- [Structs](#structs)
+    - [Tuple Structs](#tuple_structs)
+    - - [Methods](#methods)
+- [Format Macro](#format-macro)
+    - [Returning Strings from Functions](#format-macro-returning-strings)
 
 <a name="basic-commands"></a>
 ## Basic Commands
@@ -29,8 +37,10 @@ $ cargo run
 <a name="datatypes"></a>
 ## Datatypes
 - Statically Typed Language
-- Scalar
-    - Integer
+
+  ### Scalar Types
+
+    #### Integer
 
     | Length | Signed | Unsigned | Range |
     |------|------|--------|-----|
@@ -47,7 +57,7 @@ $ cargo run
     let x = 42;    
     ```
 
-    - Float
+    #### Float
 
     | Length | Signed | Unsigned |
     | ------ | ------ | -------- |
@@ -62,7 +72,7 @@ $ cargo run
     let x = 42.314;    
     ```
     
-    - Boolean
+    #### Boolean
     ```rust
     // Boolean with explicit type annotation
     let is_active: bool = true;
@@ -71,7 +81,7 @@ $ cargo run
     let has_permission = false;    
     ```
  
-    - Character
+    #### Character
      ```rust
     // Character with explicit type annotation
     let x: char = 'R';
@@ -80,8 +90,9 @@ $ cargo run
     let emoji = '🚀';    
     ```
 
-- Compound
-    - Tuple
+  ### Compound Types
+    
+    #### Tuple
     ```rust
     // Tuple with explicit type annotation
     let person_with_type: (&str, i32, bool) = ("Alice", 30, true);
@@ -128,7 +139,7 @@ $ cargo run
     
     ```
     
-    - Arrays
+    #### Arrays
         - **Fixed Size**: Once declared, the size of an array cannot be changed.
         - **Homogeneous Type**: All elements in an array must be of the same data type.
         - **Stack Allocation**: Arrays are typically allocated on the stack, which can offer performance benefits.
@@ -176,6 +187,22 @@ $ cargo run
 
     println!("Modified data: {:?}", data);
     ```
+
+    #### Slice Type
+    - A special kind of reference that lets you access a contiguous sequence of elements in a collection.
+        - For example, it can help in accessing a part of a string or part of a collection like tuples or arrays.
+      ````rust
+      let message = String::from("hello world");
+      let hello = &message[0..5];
+      println!("{}", hello);
+
+      let array = [1, 2, 3, 4, 5];
+      let slice = &array[1..4];
+      for num in slice {
+          println!("{)", num);
+      }
+      
+      ````
  
 <a name="casting"></a>
 ## Casting
@@ -276,7 +303,7 @@ fn main() {
       greet_user(name)
   }
   
-  fn greet_user(name:String){
+  fn greet_user(name: String){
       println!("Hello {}, welcome to Rust Programming", name);
   }
   ```
@@ -288,7 +315,7 @@ fn main() {
   ```rust
   fn main() {
       let sum = calculate_sum(5, 10);
-  println!("The sum is {}", sum);
+      println!("The sum is {}", sum);
   }
 
   fn calculate_sum(a:i32, b:i32) -> i32{
@@ -296,3 +323,201 @@ fn main() {
       sum
   }
   ```
+
+<a name="ownership"></a>
+## Ownership
+- Set of rules for ***memory management***
+- No garbage collection
+- Memory is managed through a system of *ownership*
+    - Set of rules that the compiler checks
+    - If violated, the program won't compile
+    - Ownership rules checked during compile time, ***Not Runtime***
+
+<a name="ownership-rules"></a>
+### Ownership Rules
+- Each value in Rust has an exactly one owner
+- There can be only one owner at a time
+- When the owner goes out of scope, the value will be dropped
+- Examples:
+```rust
+let s1 = String::from("hello");
+let s2 = s1; // Ownership is transferred to s2 thus, s1 is no longer valid.
+```
+
+```rust
+fn main() {
+    let name = String::from("Rob");
+    print_greeting(name); // Ownership of name is transferred to print_greeting() thus, name is no longer valid.
+}
+
+fn print_greeting(name: String) {
+    println!("Welcome {name}");
+}
+```
+
+<a name="ownership-fixes"></a>
+### Ownership Violation Fixes
+- **NOTE**: Transfer of ownership only occurs for complex types.
+```rust
+let i = 9;
+let j = i; // No transfer of ownership takes place here!
+println!("{}{}", i, j);
+```
+
+- Create a copy
+```rust
+let s1 = String::from("hello");
+let s2 = s1.clone();
+println!("{s1}, world!");
+println!("{s2}, world!");
+```
+
+- Return ownership back to calling function
+```rust
+fn main() {
+    let name = String::from("Rob");
+
+    // Receive ownership back.
+    let name = print_greeting(name);
+    println!("{name}");
+}
+
+fn print_greeting(name: String) -> String {
+    println!("Welcome {name}");
+    name
+}
+```
+
+- Use References
+```rust
+fn main() {
+    let name = String::from("Rob");
+
+    // Pass name by reference
+    print_greeting(&name);
+    println!("{name}");
+}
+
+fn print_greeting(name: &String){
+    println!("Welcome {name}");
+}
+```
+
+<a name="structs"></a>
+## Structs
+- Custom Data Type
+- Package together multiple realted values in a meaningful group
+- Structs are complex data types
+    - Typically allocated from the heap
+    - Subject to ownership rules
+```rust
+struct User {
+    name: String,
+    email: String,
+    active: bool,
+    sign_in_count: u64,
+    date_of_birth: String,
+}
+
+fn print_user_message(user: &User){
+    println!("Hello {}, you have signed in {} times.", user.name, user.sign_in_count);
+}
+
+fn main() {
+    let user1 = User{
+        name: String::from("Alice"),
+        email: String::from("alice@example.com"),
+        active: true,
+        sign_in_count: 5,
+        date_of_birth: String::from("1950-05-05"),
+    };
+    print_user_message(&user1);
+}
+```
+
+
+<a name="tuple_structs"></a>
+### Tuple Structs
+- Structures in which you do not need to name each field.
+```rust
+// RGB Values
+Struct Color (i32, i32, i32);
+
+// x, y, z co-ordinates
+Struct Point(f64, f64, f64);
+
+fn main() {
+    let red = Color(255, 0, 0);
+    let p1 = Point(100.0, 25.5, 30.1);
+}
+```
+
+<a name="methods"></a>
+### Methods
+- Functions associated with a struct
+- Actions or operations used to perform an operation on a struct or using a struct
+- For Example:
+  - User
+      - login, logout, print_user_info
+  - Rectangle
+      - calc_area, print_dimension,
+  - Car
+      - drive, refuel, service_vehicle
+```rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self)->u32 {
+        self.width * self.height
+    }
+    
+    fn print_dimensions(&self) {
+        println!("Height {}, Width {}", self.height, self.width);
+    }
+}
+
+fn main() {
+    let rec1 = Rectangle{
+        width: 25,
+        height: 20,
+    };
+    
+    let rec1_area = rec1.area();
+    println!("Rectangle 1 Area: {}", rec1_area);
+}
+```
+
+<a name="format-macro"></a>
+## Format Macro
+- A powerful tool for constructing strings.
+- Particularly useful when you want to create a fromatted string for display or to return from a function.
+- Similar to the println!() macro but returns the formatted string instead of printing it out.
+- Advantages:
+    - It allows for the creation of dynamic, formatted text without needing to concatenate strings manually.
+    - It provides a clear and concise way to include variables in string output.
+    - It returns a String, making it easy to store or return from functions.
+- example:
+```rust
+fn main() {
+    let name =  "Jane";
+    let age = 30;
+    let introduction = format!("Hi, my name is {} and I am {} years old.", name, age);
+    println!("{}", introduction);
+}
+```
+<a name="format-macro-returning-strings"></a>
+### Returning Strings from Functions
+- The format!() macro is sepecially useful when you need to build and return dynamic strings from functions.
+```rust
+fn create_greeting(name: &str, age: u8) -> String {
+    format!("My name is {} and I am {} years old.", name, age)
+}
+
+fn main() {
+    let introduction = create_greeting("Bob", 25);
+    println!("{}", introduction);
+}
+```
