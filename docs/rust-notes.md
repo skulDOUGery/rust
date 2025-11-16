@@ -18,7 +18,10 @@
     - - [Methods](#methods)
 - [Format Macro](#format-macro)
     - [Returning Strings from Functions](#format-macro-returning-strings)
-
+- [Enums](#enums)
+    - [Enums with Values](#enums-with-values)
+    - [Pattern Matching](#enums-pattern-matching)
+    
 <a name="basic-commands"></a>
 ## Basic Commands
 
@@ -519,5 +522,57 @@ fn create_greeting(name: &str, age: u8) -> String {
 fn main() {
     let introduction = create_greeting("Bob", 25);
     println!("{}", introduction);
+}
+```
+
+<a name="enums"></a>
+## Enums
+- Allows you to create your own data-type by listing all possible variants.
+```rust
+enum TRafficLight {
+    Red,
+    Yellow,
+    Green,
+}
+```
+
+<a name="enums-with-values"></a>
+### Enums with Values
+```rust
+enum Shape {
+    Circle(f64), /* Radius */
+    Rectangle(f64, f64), /* Length, Width */
+    Square(i32), /* Side Length */
+}
+```
+
+<a name="enums-pattern-matching"></a>
+### Pattern Matching
+- Must match each enum case.
+```rust
+fn calculate_area(shape: Shape) {
+    match shape {
+        Shape::Circle(radius) => println!("Area of circle is {}", 3.14 * radius * radius),
+        Shape::Rectangle(width, height) => {
+            let area = width * height;
+            println!("Area of rectange is {}", area);
+        },
+        Shape::Square(side) => println!("Area of square is {}", side * side),
+    }
+}
+
+fn main() {
+    let light = TrafficLight::Red;
+    let rect1 = Shape::Rectangle(30.0, 17.3);
+    let square = Shape::Square(25);
+
+    match light {
+        TrafficLight::Red => println!("Stop!"),
+        TrafficLight::Yellow => println!("Caution! Be Prepared to stop."),
+        TrafficLight::Green => println!("Go!!"),
+    }
+
+    calculate_area(rect1);
+    calculate_area(square);
 }
 ```
