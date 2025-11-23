@@ -21,6 +21,8 @@
 - [Enums](#enums)
     - [Enums with Values](#enums-with-values)
     - [Pattern Matching](#enums-pattern-matching)
+    - [Option Enum](#option-enum)
+    - [IF..LET Statement](#if-let-statement)
     
 <a name="basic-commands"></a>
 ## Basic Commands
@@ -529,7 +531,7 @@ fn main() {
 ## Enums
 - Allows you to create your own data-type by listing all possible variants.
 ```rust
-enum TRafficLight {
+enum TrafficLight {
     Red,
     Yellow,
     Green,
@@ -574,5 +576,82 @@ fn main() {
 
     calculate_area(rect1);
     calculate_area(square);
+}
+```
+
+<a name="option-enum"></a>
+### Option Enum
+- Built into Rust
+```rust
+enum Option<T> {
+    None,
+    Some(T),
+}
+```
+- When the type of a variable is Option<T>, you can perform a special type of pattern matching. For example:
+```rust
+match foo {
+    Some(value) => println!("The Value is: {}", value),
+    None => println!("No Value")
+}
+```
+- In this case, the `Some(value)` will automatically convert the `Option<T>` type to just type `T` and the converted result will be stored in value. For example:
+```rust
+fn main() {
+    let mut foo: Option<f64> = None;
+    match foo {
+        Some(value) => println!("The Value is: {}", value),
+        None => println!("No Value")
+    }
+    
+    foo = Some(1.23);
+    match foo {
+        Some(value) => println!("The Value is: {}", value),
+        None => println!("No Value")
+    }
+}
+``` 
+- Prints:
+```
+No Value
+The Value is: 1.23
+```
+
+- Example: Safe Division
+```rust
+fn safe_divide(numerator: f64, denominator: f64) -> Option<f64> {
+    if denominator == 0.0 {
+        None
+    } else {
+        Some(numerator / denominator)
+    }
+}
+
+fn main() {
+    let result = safe_divide(30.0, 0.0);
+    match result {
+        Some(value) => println!("Successful division: {}", value),
+        None => println!("Cannot divide by zero"),
+    }
+}
+```
+<a name="option-enum"></a>
+### If..Let Statement
+- Simplified version of pattern matching
+- Can be used for checking one or some of the enum cases, do not need to handle every case as with `match` statement.
+```rust
+enum TrafficLight {
+    Red,
+    Yellow,
+    Green,
+}
+
+fn main() {
+    let light = TrafficLight::Red;
+    if let TrafficLight::Red = light {
+        println!("You must not pass");
+    } else if let TrafficLight::Yellow = light {
+        println!("Be prepared to stop");
+    }
 }
 ```
