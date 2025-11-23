@@ -23,6 +23,7 @@
     - [Pattern Matching](#enums-pattern-matching)
     - [Option Enum](#option-enum)
     - [IF..LET Statement](#if-let-statement)
+    - [Parking Prices Example](#parking-prices-example)
     
 <a name="basic-commands"></a>
 ## Basic Commands
@@ -653,5 +654,47 @@ fn main() {
     } else if let TrafficLight::Yellow = light {
         println!("Be prepared to stop");
     }
+}
+```
+
+<a name="parking-prices-example"></a>
+### Parking Prices Example
+```rust
+enum CarType {
+    SUV,
+    Sedan,
+    Coupe,
+}
+
+enum VehicleType {
+    Car(CarType),
+    Truck(u32),
+    Motorcycle,
+}
+
+fn calculate_parking_rate(vehicle: VehicleType) -> u8 {
+    match vehicle {
+        VehicleType::Motorcycle => 10,
+        VehicleType::Truck(cargo_capacity) => {
+            if cargo_capacity > 10 {
+                25
+            } else {
+                20
+            }
+        },
+        VehicleType::Car(car_type) => {
+            match car_type {
+                CarType::SUV => 20,
+                CarType::Sedan =>15,
+                CarType::Coupe =>10,
+            }
+        },
+    }
+}
+
+fn main() {
+    let fourrunner = VehicleType::Car(CarType::SUV);
+    let parking_rate = calculate_parking_rate(fourrunner);
+    println!("The parking rate for your vehicle is {}", parking_rate);
 }
 ```
