@@ -24,9 +24,16 @@
     - [Option Enum](#option-enum)
     - [IF..LET Statement](#if-let-statement)
     - [Parking Prices Example](#parking-prices-example)
+- [Crates and Modules](#crates-and-modules)
+    - [Crates](#crates)
+        - [Binary Crates](#binary-crates)
+        - [Library Crates](#library-crates)
+    - [Adding a Crate to your Project](#adding-a-crate)
+    - [Modules](#modules)
     
 <a name="basic-commands"></a>
 ## Basic Commands
+- ***Cargo*** - Rusts package manager and build system.
 
 <a name="creating-a-new-project"></a>
 ### Creating a New Project
@@ -696,5 +703,80 @@ fn main() {
     let fourrunner = VehicleType::Car(CarType::SUV);
     let parking_rate = calculate_parking_rate(fourrunner);
     println!("The parking rate for your vehicle is {}", parking_rate);
+}
+```
+
+<a name="crates-and-modules"></a>
+## Crates and Modules
+
+<a name="crates"></a>
+### Crates
+- A ***package*** is a collection of one or more crates along with a `Cargo.toml` file that defines metadata and dependencies.
+- The smallest amount of code that the Rust compiler considers at a time.
+- A bundle of code packages with all of its necessary components ready for use by Rust.
+- Contains everything needed to compile that specific part of code.
+- Two different kinds of crates:
+
+<a name="binary-crates"></a>
+#### Binary Crates
+- Must have a `main()` funcion.
+- All basic programs are binary crates.
+- Can be executed.
+
+<a name="library-crates"></a>
+#### Library Crate
+- Do not have a `main()` function.
+- Cannot be executed on their own.
+- Used by binary crates.
+- Can be downloaded and managed using `Cargo`
+
+<a name="adding-a-crate"></a>
+### Adding a Crate to your Project
+- Crates are added and maintained in the `Cargo.toml` file.
+```rust
+cargo add <crate name>
+```
+
+- For example:
+```rust
+cargo add rand
+```
+- This command will modify your projects Cargo.toml file:
+```toml
+[package]
+name = "crates"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rand = "0.8.5"
+```
+
+<a name="modules"></a>
+### Modules
+- A ***module*** is a way to organize and encapsulate related code within a crate, allowing you to structure your code into ***namespaces*** for better readability.
+- Modules help us organize code for readability and reuse.
+- Modules can be nested and inported, facilitating ***code organization*** and ***reuse***.
+- Modules can be:
+
+<a name="private modules"></a>
+#### Private Modules
+- Not available outside the crate.
+
+<a name="public modules"></a>
+#### Public Modules
+- Exposes a module to external code.
+- Library dependencies are typically public modules.
+- Module functions can be made public by placing the `pub` keyword in front
+```rust
+pub fn greet(name: &str) {
+    println!("Hello, {}!", name);
+}
+```
+- To use a public module, use the keyword `mod` followed by name of the module (without the `.rs`)
+```rust
+mod messages // for the greet function.
+fn main() {
+    messages::greet("David");
 }
 ```
