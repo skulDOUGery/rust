@@ -18,9 +18,22 @@
     - - [Methods](#methods)
 - [Format Macro](#format-macro)
     - [Returning Strings from Functions](#format-macro-returning-strings)
-
+- [Enums](#enums)
+    - [Enums with Values](#enums-with-values)
+    - [Pattern Matching](#enums-pattern-matching)
+    - [Option Enum](#option-enum)
+    - [IF..LET Statement](#if-let-statement)
+    - [Parking Prices Example](#parking-prices-example)
+- [Crates and Modules](#crates-and-modules)
+    - [Crates](#crates)
+        - [Binary Crates](#binary-crates)
+        - [Library Crates](#library-crates)
+    - [Adding a Crate to your Project](#adding-a-crate)
+    - [Modules](#modules)
+    
 <a name="basic-commands"></a>
 ## Basic Commands
+- ***Cargo*** - Rusts package manager and build system.
 
 <a name="creating-a-new-project"></a>
 ### Creating a New Project
@@ -519,5 +532,251 @@ fn create_greeting(name: &str, age: u8) -> String {
 fn main() {
     let introduction = create_greeting("Bob", 25);
     println!("{}", introduction);
+}
+```
+
+<a name="enums"></a>
+## Enums
+- Allows you to create your own data-type by listing all possible variants.
+```rust
+enum TrafficLight {
+    Red,
+    Yellow,
+    Green,
+}
+```
+
+<a name="enums-with-values"></a>
+### Enums with Values
+```rust
+enum Shape {
+    Circle(f64), /* Radius */
+    Rectangle(f64, f64), /* Length, Width */
+    Square(i32), /* Side Length */
+}
+```
+
+<a name="enums-pattern-matching"></a>
+### Pattern Matching
+- Must match each enum case.
+```rust
+fn calculate_area(shape: Shape) {
+    match shape {
+        Shape::Circle(radius) => println!("Area of circle is {}", 3.14 * radius * radius),
+        Shape::Rectangle(width, height) => {
+            let area = width * height;
+            println!("Area of rectange is {}", area);
+        },
+        Shape::Square(side) => println!("Area of square is {}", side * side),
+    }
+}
+
+fn main() {
+    let light = TrafficLight::Red;
+    let rect1 = Shape::Rectangle(30.0, 17.3);
+    let square = Shape::Square(25);
+
+    match light {
+        TrafficLight::Red => println!("Stop!"),
+        TrafficLight::Yellow => println!("Caution! Be Prepared to stop."),
+        TrafficLight::Green => println!("Go!!"),
+    }
+
+    calculate_area(rect1);
+    calculate_area(square);
+}
+```
+
+<a name="option-enum"></a>
+### Option Enum
+- Built into Rust
+```rust
+enum Option<T> {
+    None,
+    Some(T),
+}
+```
+- When the type of a variable is Option<T>, you can perform a special type of pattern matching. For example:
+```rust
+match foo {
+    Some(value) => println!("The Value is: {}", value),
+    None => println!("No Value")
+}
+```
+- In this case, the `Some(value)` will automatically convert the `Option<T>` type to just type `T` and the converted result will be stored in value. For example:
+```rust
+fn main() {
+    let mut foo: Option<f64> = None;
+    match foo {
+        Some(value) => println!("The Value is: {}", value),
+        None => println!("No Value")
+    }
+    
+    foo = Some(1.23);
+    match foo {
+        Some(value) => println!("The Value is: {}", value),
+        None => println!("No Value")
+    }
+}
+``` 
+- Prints:
+```
+No Value
+The Value is: 1.23
+```
+
+- Example: Safe Division
+```rust
+fn safe_divide(numerator: f64, denominator: f64) -> Option<f64> {
+    if denominator == 0.0 {
+        None
+    } else {
+        Some(numerator / denominator)
+    }
+}
+
+fn main() {
+    let result = safe_divide(30.0, 0.0);
+    match result {
+        Some(value) => println!("Successful division: {}", value),
+        None => println!("Cannot divide by zero"),
+    }
+}
+```
+<a name="option-enum"></a>
+### If..Let Statement
+- Simplified version of pattern matching
+- Can be used for checking one or some of the enum cases, do not need to handle every case as with `match` statement.
+```rust
+enum TrafficLight {
+    Red,
+    Yellow,
+    Green,
+}
+
+fn main() {
+    let light = TrafficLight::Red;
+    if let TrafficLight::Red = light {
+        println!("You must not pass");
+    } else if let TrafficLight::Yellow = light {
+        println!("Be prepared to stop");
+    }
+}
+```
+
+<a name="parking-prices-example"></a>
+### Parking Prices Example
+```rust
+enum CarType {
+    SUV,
+    Sedan,
+    Coupe,
+}
+
+enum VehicleType {
+    Car(CarType),
+    Truck(u32),
+    Motorcycle,
+}
+
+fn calculate_parking_rate(vehicle: VehicleType) -> u8 {
+    match vehicle {
+        VehicleType::Motorcycle => 10,
+        VehicleType::Truck(cargo_capacity) => {
+            if cargo_capacity > 10 {
+                25
+            } else {
+                20
+            }
+        },
+        VehicleType::Car(car_type) => {
+            match car_type {
+                CarType::SUV => 20,
+                CarType::Sedan =>15,
+                CarType::Coupe =>10,
+            }
+        },
+    }
+}
+
+fn main() {
+    let fourrunner = VehicleType::Car(CarType::SUV);
+    let parking_rate = calculate_parking_rate(fourrunner);
+    println!("The parking rate for your vehicle is {}", parking_rate);
+}
+```
+
+<a name="crates-and-modules"></a>
+## Crates and Modules
+
+<a name="crates"></a>
+### Crates
+- A ***package*** is a collection of one or more crates along with a `Cargo.toml` file that defines metadata and dependencies.
+- The smallest amount of code that the Rust compiler considers at a time.
+- A bundle of code packages with all of its necessary components ready for use by Rust.
+- Contains everything needed to compile that specific part of code.
+- Two different kinds of crates:
+
+<a name="binary-crates"></a>
+#### Binary Crates
+- Must have a `main()` funcion.
+- All basic programs are binary crates.
+- Can be executed.
+
+<a name="library-crates"></a>
+#### Library Crate
+- Do not have a `main()` function.
+- Cannot be executed on their own.
+- Used by binary crates.
+- Can be downloaded and managed using `Cargo`
+
+<a name="adding-a-crate"></a>
+### Adding a Crate to your Project
+- Crates are added and maintained in the `Cargo.toml` file.
+```rust
+cargo add <crate name>
+```
+
+- For example:
+```rust
+cargo add rand
+```
+- This command will modify your projects Cargo.toml file:
+```toml
+[package]
+name = "crates"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rand = "0.8.5"
+```
+
+<a name="modules"></a>
+### Modules
+- A ***module*** is a way to organize and encapsulate related code within a crate, allowing you to structure your code into ***namespaces*** for better readability.
+- Modules help us organize code for readability and reuse.
+- Modules can be nested and inported, facilitating ***code organization*** and ***reuse***.
+- Modules can be:
+
+<a name="private modules"></a>
+#### Private Modules
+- Not available outside the crate.
+
+<a name="public modules"></a>
+#### Public Modules
+- Exposes a module to external code.
+- Library dependencies are typically public modules.
+- Module functions can be made public by placing the `pub` keyword in front
+```rust
+pub fn greet(name: &str) {
+    println!("Hello, {}!", name);
+}
+```
+- To use a public module, use the keyword `mod` followed by name of the module (without the `.rs`)
+```rust
+mod messages // for the greet function.
+fn main() {
+    messages::greet("David");
 }
 ```
